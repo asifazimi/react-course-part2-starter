@@ -1,10 +1,13 @@
 import LoginStatus from "./auth/LoginStatus";
 import useCounterStore from "./counter/store";
 import { useTask } from "./tasks/TaskList";
+import { mountStoreDevtool } from "simple-zustand-devtools";
 
 const NavBar = () => {
   const { tasks } = useTask();
-  const { counter } = useCounterStore();
+  const counter = useCounterStore((s) => s.counter);
+
+  console.log("NavBar rendered");
 
   return (
     <nav className="navbar d-flex justify-content-between">
@@ -14,5 +17,9 @@ const NavBar = () => {
     </nav>
   );
 };
+
+if (process.env.NODE_ENV === "development") {
+  mountStoreDevtool("NavBar Store", useCounterStore);
+}
 
 export default NavBar;
